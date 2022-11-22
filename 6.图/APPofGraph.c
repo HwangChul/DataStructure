@@ -8,69 +8,69 @@
 #define ERROR 0
 #define INFEASIBLE -1
 #define OVERFLOW   -2
-#define MaxInt  30000			//±íÊ¾×î´óÖµ ¼´¡Ş 32767
-#define MVNum     100			//×î´ó¶¥µãÊı
-#define MaxEdge   100			//×î´ó±ßÊı
+#define MaxInt  30000			//è¡¨ç¤ºæœ€å¤§å€¼ å³âˆ 32767
+#define MVNum     100			//æœ€å¤§é¡¶ç‚¹æ•°
+#define MaxEdge   100			//æœ€å¤§è¾¹æ•°
 
 typedef int Status;
-typedef int ArcType;			//Éè±ßµÄÈ¨ÖµÎªÕûÊı
-typedef char VertexType;		//Éè¶¥µãµÄÊı¾İÀàĞÍÎª×Ö·ûĞÍ
+typedef int ArcType;			//è®¾è¾¹çš„æƒå€¼ä¸ºæ•´æ•°
+typedef char VertexType;		//è®¾é¡¶ç‚¹çš„æ•°æ®ç±»å‹ä¸ºå­—ç¬¦å‹
 
-//×îĞ¡Éú³ÉÊ÷
+//æœ€å°ç”Ÿæˆæ ‘
 typedef struct {
-	int from, to;				//ÆğÊ¼µã
-	int weight;					//È¨Öµ
-} EdgeType;						//´æ·Å±ßµÄÊı¾İÀàĞÍ
+	int from, to;				//èµ·å§‹ç‚¹
+	int weight;					//æƒå€¼
+} EdgeType;						//å­˜æ”¾è¾¹çš„æ•°æ®ç±»å‹
 
 typedef struct {
-	VertexType vertex[MVNum];	//´æ·Å¶¥µãÊı¾İ
-	EdgeType egde[MaxEdge];		//´æ·Å±ßµÄÊı×é
-	int vertexNum, edgeMum;		//Í¼µÄ¶¥µãÊıºÍ±ßÊı
+	VertexType vertex[MVNum];	//å­˜æ”¾é¡¶ç‚¹æ•°æ®
+	EdgeType egde[MaxEdge];		//å­˜æ”¾è¾¹çš„æ•°ç»„
+	int vertexNum, edgeMum;		//å›¾çš„é¡¶ç‚¹æ•°å’Œè¾¹æ•°
 } EdgeGraph;
 
 typedef struct {
 	int adjvex;
 	int lowcost;
-} ShortEdge;					//×îĞ¡Éú³ÉÊ÷¸¨ÖúÊı×é
+} ShortEdge;					//æœ€å°ç”Ÿæˆæ ‘è¾…åŠ©æ•°ç»„
 
-//ÁÚ½Ó¾ØÕó
+//é‚»æ¥çŸ©é˜µ
 typedef struct {
-	VertexType vexs[MVNum];		//¶¥µã±í
-	ArcType arcs[MVNum][MVNum];	//ÁÚ½Ó¾ØÕó
-	int vexnum, arcnum;			//Í¼µÄµ±Ç°¶¥µãÊıºÍ±ßÊı
-} AMGraph;						//Adjacency Matrix Graph ÁÚ½Ó¾ØÕóÍ¼
+	VertexType vexs[MVNum];		//é¡¶ç‚¹è¡¨
+	ArcType arcs[MVNum][MVNum];	//é‚»æ¥çŸ©é˜µ
+	int vexnum, arcnum;			//å›¾çš„å½“å‰é¡¶ç‚¹æ•°å’Œè¾¹æ•°
+} AMGraph;						//Adjacency Matrix Graph é‚»æ¥çŸ©é˜µå›¾
 
-//ÁÚ½Ó±í
-typedef struct ArcNode {		//±ß½áµã
-	int adjvex;					//±ßËùÖ¸ÏòµÄ¶¥µãµÄÎ»ÖÃ
-	struct ArcNode *nextarc;	//Ö¸ÏòÏÂÒ»¸ö±ßµÄÖ¸Õë
-	int info;					//ºÍ±ßÏà¹ØµÄĞÅÏ¢
+//é‚»æ¥è¡¨
+typedef struct ArcNode {		//è¾¹ç»“ç‚¹
+	int adjvex;					//è¾¹æ‰€æŒ‡å‘çš„é¡¶ç‚¹çš„ä½ç½®
+	struct ArcNode *nextarc;	//æŒ‡å‘ä¸‹ä¸€ä¸ªè¾¹çš„æŒ‡é’ˆ
+	int info;					//å’Œè¾¹ç›¸å…³çš„ä¿¡æ¯
 } ArcNode;
 
 typedef struct {
-	int in;						//´ú±íÈë¶È
-	VertexType data;			//¶¥µãĞÅÏ¢
-	ArcNode *firstArc;			//Ö¸ÏòÒÀ¸½¸Ã¶¥µãµÄ±ßµÄÖ¸Õë
-} VNode, AdjList[MVNum];		//AdjList±íÊ¾ÁÚ½Ó±íÀàĞÍ
+	int in;						//ä»£è¡¨å…¥åº¦
+	VertexType data;			//é¡¶ç‚¹ä¿¡æ¯
+	ArcNode *firstArc;			//æŒ‡å‘ä¾é™„è¯¥é¡¶ç‚¹çš„è¾¹çš„æŒ‡é’ˆ
+} VNode, AdjList[MVNum];		//AdjListè¡¨ç¤ºé‚»æ¥è¡¨ç±»å‹
 
 typedef struct {
-	AdjList vertices;			//´æ·Å¶¥µã½áµãµÄÁÚ½Ó±í
-	int vexnum, arcnum;			//Í¼µÄµ±Ç°¶¥µãÊıºÍ»¡Êı
-} ALGraph;						//Adjacency List Graph ÁÚ½Ó±íÍ¼
+	AdjList vertices;			//å­˜æ”¾é¡¶ç‚¹ç»“ç‚¹çš„é‚»æ¥è¡¨
+	int vexnum, arcnum;			//å›¾çš„å½“å‰é¡¶ç‚¹æ•°å’Œå¼§æ•°
+} ALGraph;						//Adjacency List Graph é‚»æ¥è¡¨å›¾
 
-//º¯ÊıÔ­ĞÍ
-Status createUDG(ALGraph *G);					//²ÉÓÃÁÚ½Ó±í±íÊ¾·¨ ´´½¨ÎŞÏòÍ¼G
-int LocateVex(ALGraph G, char v);				//²éÕÒvÔÚG.verticesÖĞµÄÎ»ÖÃ²¢·µ»Ø
-int findMinDist(int *S, int *dist, AMGraph G);	//distÖĞ²éÕÒS=0µÄ×îĞ¡Öµ
-void Dijkstra(AMGraph G, int starV);			//µÏ½ÜË¹ÌØÀ­Ëã·¨
-void printPath(int *dist, int *path, AMGraph G, int starV);//´òÓ¡×î¶ÌÂ·¾¶
-void Floyd(AMGraph G);							//¸¥ÂåÒÁµÂËã·¨ pathÊı×éÃ»ÓĞÊµÏÖ
-void Prim(AMGraph G, int start);				//ÆÕÀûÄ·Ëã·¨
-int minEdge(ShortEdge *se, AMGraph G);			//ÔÚÊı×éshortEdgeÖĞÑ¡Ôñ×îĞ¡µÄ±ß
-Status MST(AMGraph *G);							//ÆÕÀûÄ·Ëã·¨ µÏ½ÜË¹ÌØÀ­Ëã·¨µÄÍ¼
-Status EG(EdgeGraph *eg);						//¹¹½¨±ß¼¯Êı×é´æ´¢µÄÍ¼
-void Kruskal(EdgeGraph G);						//¿ËÂ³Ë¹¿¨¶ûËã·¨
-int findRoot(int *parent, int v);				//ÕÒµ½ËùÔÚÉú³ÉÊ÷µÄ¸ù½Úµã
+//å‡½æ•°åŸå‹
+Status createUDG(ALGraph *G);					//é‡‡ç”¨é‚»æ¥è¡¨è¡¨ç¤ºæ³• åˆ›å»ºæ— å‘å›¾G
+int LocateVex(ALGraph G, char v);				//æŸ¥æ‰¾våœ¨G.verticesä¸­çš„ä½ç½®å¹¶è¿”å›
+int findMinDist(int *S, int *dist, AMGraph G);	//distä¸­æŸ¥æ‰¾S=0çš„æœ€å°å€¼
+void Dijkstra(AMGraph G, int starV);			//è¿ªæ°æ–¯ç‰¹æ‹‰ç®—æ³•
+void printPath(int *dist, int *path, AMGraph G, int starV);//æ‰“å°æœ€çŸ­è·¯å¾„
+void Floyd(AMGraph G);							//å¼—æ´›ä¼Šå¾·ç®—æ³• pathæ•°ç»„æ²¡æœ‰å®ç°
+void Prim(AMGraph G, int start);				//æ™®åˆ©å§†ç®—æ³•
+int minEdge(ShortEdge *se, AMGraph G);			//åœ¨æ•°ç»„shortEdgeä¸­é€‰æ‹©æœ€å°çš„è¾¹
+Status MST(AMGraph *G);							//æ™®åˆ©å§†ç®—æ³• è¿ªæ°æ–¯ç‰¹æ‹‰ç®—æ³•çš„å›¾
+Status EG(EdgeGraph *eg);						//æ„å»ºè¾¹é›†æ•°ç»„å­˜å‚¨çš„å›¾
+void Kruskal(EdgeGraph G);						//å…‹é²æ–¯å¡å°”ç®—æ³•
+int findRoot(int *parent, int v);				//æ‰¾åˆ°æ‰€åœ¨ç”Ÿæˆæ ‘çš„æ ¹èŠ‚ç‚¹
 
 int main() {
 	AMGraph *G;
@@ -88,35 +88,18 @@ int main() {
 
 void Floyd(AMGraph G) {
 	int dist[G.vexnum][G.vexnum];
-//	char path[G.vexnum][G.vexnum][G.vexnum];		//pathÊı×é²»»á
-	for (int i = 0; i < G.vexnum; i++) {			//³õÊ¼»¯dist
+//	char path[G.vexnum][G.vexnum][G.vexnum];		//pathæ•°ç»„ä¸ä¼šå†™Ï€__Ï€
+	for (int i = 0; i < G.vexnum; i++) {			//åˆå§‹åŒ–dist
 		for (int j = 0; j < G.vexnum; j++) {
 			dist[i][j] = G.arcs[i][j];
-//			for (int k = 0; k < G.vexnum; k++) {
-//				path[i][j][k] = '-';
-//			}
-//			if (dist[i][j] != MaxInt && dist[i][j] != 0) {
-//				path[i][j][0] = G.vexs[i];
-//				path[i][j][1] = G.vexs[j];
-//			}
 		}
 	}
 	for (int k = 0; k < G.vexnum; k++) {
 		for (int i = 0; i < G.vexnum; i++) {
 			for (int j = 0; j < G.vexnum; j++) {
 				int n = 0;
-				if (dist[i][j] > dist[i][k] + dist[k][j]) {		//ÔÚi jÖĞÖğ²½¼ÓÈëÖĞ¼ä¶¥µãk£¬
-					dist[i][j] = dist[i][k] + dist[k][j];		//Èç¹ûiµ½jµÄ¶¥µã±ä¶Ì¾Í¸üĞÂ
-//					for (n; n < G.vexnum; n++) {
-//						if (path[i][k][n] != '-') {
-//							path[i][j][n] = path[i][k][n];
-//						} else {
-//							break;
-//						}
-//					}
-//					for (n; n < G.vexnum; n++) {
-//						path[i][j][n] =  path[j][k][n];
-//					}
+				if (dist[i][j] > dist[i][k] + dist[k][j]) {		//åœ¨i jä¸­é€æ­¥åŠ å…¥ä¸­é—´é¡¶ç‚¹kï¼Œ
+					dist[i][j] = dist[i][k] + dist[k][j];		//å¦‚æœiåˆ°jçš„é¡¶ç‚¹å˜çŸ­å°±æ›´æ–°
 				}
 			}
 		}
@@ -125,27 +108,27 @@ void Floyd(AMGraph G) {
 
 void Dijkstra(AMGraph G, int starV) {
 	int S[G.vexnum], dist[G.vexnum], path[G.vexnum];
-	//Êı×éSÖĞÖµÎª1µÄÕâ¸öÏÂ±êÖ¸µÄ¶¥µã ±íÊ¾ÔÚ¼¯ºÏÖĞ ÒÑ¾­¹æ»®Íê±Ï
-	//distÊı×éÖĞµÄÖµÎªµ½¸ÃÏÂ±êËùÖ¸µÄ¶¥µãµÄ¾àÀë(È¨Öµ)
-	//pathÊı×éÖĞÎªÊ¼µãµ½ÖÕµãµÄ×î¶ÌÂ·¾¶ ´ÓºóÍùÇ°ÍÆ
+	//æ•°ç»„Sä¸­å€¼ä¸º1çš„è¿™ä¸ªä¸‹æ ‡æŒ‡çš„é¡¶ç‚¹ è¡¨ç¤ºåœ¨é›†åˆä¸­ å·²ç»è§„åˆ’å®Œæ¯•
+	//distæ•°ç»„ä¸­çš„å€¼ä¸ºåˆ°è¯¥ä¸‹æ ‡æ‰€æŒ‡çš„é¡¶ç‚¹çš„è·ç¦»(æƒå€¼)
+	//pathæ•°ç»„ä¸­ä¸ºå§‹ç‚¹åˆ°ç»ˆç‚¹çš„æœ€çŸ­è·¯å¾„ ä»åå¾€å‰æ¨
 	for (int i = 0; i < G.vexnum; i++) {
-		S[i] = 0;								//³õÊ¼»¯S ÆäÖµ¶¼Îª0
-		dist[i] = G.arcs[starV][i];				//³õÊ¼»¯dist ÖµÎªÊ¼µãµ½¸÷¸ö¶¥µãµÄ×î¶ÌÂ·¾¶
+		S[i] = 0;								//åˆå§‹åŒ–S å…¶å€¼éƒ½ä¸º0
+		dist[i] = G.arcs[starV][i];				//åˆå§‹åŒ–dist å€¼ä¸ºå§‹ç‚¹åˆ°å„ä¸ªé¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„
 		if (dist[i] !=  MaxInt) {
-			path[i] = starV;					//³õÊ¼»¯path Èç¹ûÊ¼µãÓĞµ½Ä³¸ö¶¥µãµÄ»¡Ôòpath[i]Îª¸ÃÊ¼µã ·ñÔòÎª-1
+			path[i] = starV;					//åˆå§‹åŒ–path å¦‚æœå§‹ç‚¹æœ‰åˆ°æŸä¸ªé¡¶ç‚¹çš„å¼§åˆ™path[i]ä¸ºè¯¥å§‹ç‚¹ å¦åˆ™ä¸º-1
 		} else {
 			path[i] = -1;
 		}
 	}
-	S[starV] = 1;								//Ê¼µã·ÅÈë¼¯ºÏS ±íÊ¾ÒÑ¾­¹æ»®Íê±Ï
-	int num = 1, min;							//ÒÑ¾­¹æ»®µÄ¶¥µãnum = 1¸ö
+	S[starV] = 1;								//å§‹ç‚¹æ”¾å…¥é›†åˆS è¡¨ç¤ºå·²ç»è§„åˆ’å®Œæ¯•
+	int num = 1, min;							//å·²ç»è§„åˆ’çš„é¡¶ç‚¹num = 1ä¸ª
 	while (num < G.vexnum) {
-		min = findMinDist(S, dist, G);			//distÖĞ²éÕÒS=0µÄ×îĞ¡Öµ
-		S[min] = 1;								//×îĞ¡Öµ¼ÓÈëS
-		for (int i = 0; i < G.vexnum; i++) {	//¸üĞÂ´ÓÊ¼µã³ö·¢µ½ËùÓĞ¶¥µãµÄ×î¶ÌÂ·¾¶³¤¶È
+		min = findMinDist(S, dist, G);			//distä¸­æŸ¥æ‰¾S=0çš„æœ€å°å€¼
+		S[min] = 1;								//æœ€å°å€¼åŠ å…¥S
+		for (int i = 0; i < G.vexnum; i++) {	//æ›´æ–°ä»å§‹ç‚¹å‡ºå‘åˆ°æ‰€æœ‰é¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„é•¿åº¦
 			if ((S[i] == 0) && (dist[i] > dist[min] + G.arcs[min][i])) {
-				dist[i] = dist[min] + G.arcs[min][i];		//ÓÃÕÒµ½µÄ×î¶ÌÂ·¾¶ĞŞ¸Ä¶ÔÓ¦µÄdist
-				path[i] = min;					//ĞŞ¸Ä¶ÔÓ¦µÄpath
+				dist[i] = dist[min] + G.arcs[min][i];		//ç”¨æ‰¾åˆ°çš„æœ€çŸ­è·¯å¾„ä¿®æ”¹å¯¹åº”çš„dist
+				path[i] = min;					//ä¿®æ”¹å¯¹åº”çš„path
 			}
 		}
 		num++;
@@ -155,10 +138,10 @@ void Dijkstra(AMGraph G, int starV) {
 
 
 void printPath(int *dist, int *path, AMGraph G, int starV) {
-	//°ÑstarV½Úµãµ½ÆäËû½ÚµãµÄ×î¶ÌÂ·¾¶±£´æµ½index_path£¬È»ºó¸ñÊ½»¯Êä³ö×î¶ÌÂ·¾¶
+	//æŠŠstarVèŠ‚ç‚¹åˆ°å…¶ä»–èŠ‚ç‚¹çš„æœ€çŸ­è·¯å¾„ä¿å­˜åˆ°index_pathï¼Œç„¶åæ ¼å¼åŒ–è¾“å‡ºæœ€çŸ­è·¯å¾„
 	int index_path[G.vexnum], count, min;
-	for (int i = 0; i < G.vexnum; i++) {	//i´ú±íÖÕµã
-		if (i == starV) {					//Èç¹ûÆğÊ¼µãÒ»Ñù¾ÍÌø¹ı
+	for (int i = 0; i < G.vexnum; i++) {	//iä»£è¡¨ç»ˆç‚¹
+		if (i == starV) {					//å¦‚æœèµ·å§‹ç‚¹ä¸€æ ·å°±è·³è¿‡
 			continue;
 		}
 		count = 0;
@@ -168,11 +151,11 @@ void printPath(int *dist, int *path, AMGraph G, int starV) {
 			min = path[min];
 			index_path[count++] = min;
 		}
-		printf("´ÓÊ¼µã%d¿ªÊ¼³ö·¢µ½ÖÕµã%d£º", G.vexs[starV], G.vexs[i]);
+		printf("ä»å§‹ç‚¹%då¼€å§‹å‡ºå‘åˆ°ç»ˆç‚¹%dï¼š", G.vexs[starV], G.vexs[i]);
 		for (--count; count >= 0; count--) {
 			printf("%d--->", G.vexs[index_path[count]]);
 		}
-		printf("%d¹²¼ÆÈ¨Öµ£º%d\n", G.vexs[i], dist[i]);
+		printf("%då…±è®¡æƒå€¼ï¼š%d\n", G.vexs[i], dist[i]);
 	}
 }
 
@@ -186,7 +169,7 @@ int findMinDist(int *S, int *dist, AMGraph G) {
 						min = i;
 					} else {
 						min = j;
-						i = j;//ÒòÎªi»¹ÔÚÇ°Ãæ
+						i = j;//å› ä¸ºiè¿˜åœ¨å‰é¢
 					}//if
 				}//if
 			}//for j
@@ -196,44 +179,44 @@ int findMinDist(int *S, int *dist, AMGraph G) {
 	return min;
 }
 
-Status createUDG(ALGraph *G) {				//²ÉÓÃÁÚ½Ó±í±íÊ¾·¨ ´´½¨ÎŞÏòÍ¼G
-	printf("ÊäÈë¼¸¸ö¶¥µã:");
+Status createUDG(ALGraph *G) {				//é‡‡ç”¨é‚»æ¥è¡¨è¡¨ç¤ºæ³• åˆ›å»ºæ— å‘å›¾G
+	printf("è¾“å…¥å‡ ä¸ªé¡¶ç‚¹:");
 	scanf("%d", &G->vexnum);
-	printf("ÊäÈë¼¸¸ö±ß:");
+	printf("è¾“å…¥å‡ ä¸ªè¾¹:");
 	scanf("%d", &G->arcnum);
-	for (int i = 0; i < G->vexnum; i++) {	//¹¹Ôì±íÍ·½áµã±í
-		printf("¶¥µãĞÅÏ¢:");
-		scanf("%s", &G->vertices[i].data);	//ÊäÈëµãµÄĞÅÏ¢
-		G->vertices[i].firstArc = NULL;		//³õÊ¼»¯±íÍ·½áµãµÄÖ¸ÕëÓò
+	for (int i = 0; i < G->vexnum; i++) {	//æ„é€ è¡¨å¤´ç»“ç‚¹è¡¨
+		printf("é¡¶ç‚¹ä¿¡æ¯:");
+		scanf("%s", &G->vertices[i].data);	//è¾“å…¥ç‚¹çš„ä¿¡æ¯
+		G->vertices[i].firstArc = NULL;		//åˆå§‹åŒ–è¡¨å¤´ç»“ç‚¹çš„æŒ‡é’ˆåŸŸ
 		G->vertices[i].in = 0;
 	}
 	char v1, v2;
 	int i, j, w;
 	ArcNode *p1, *p2;
 	for (int k = 0; k < G->arcnum; k++) {
-		printf("ÊäÈëÒ»Ìõ±ßËùÒÀ¸½µÄÁ½¸ö¶¥µãÒÔ¼°±ßµÄÈ¨Öµ(»Ø³µ£¬¿Õ¸ñÇø·Ö):\n");
+		printf("è¾“å…¥ä¸€æ¡è¾¹æ‰€ä¾é™„çš„ä¸¤ä¸ªé¡¶ç‚¹ä»¥åŠè¾¹çš„æƒå€¼(å›è½¦ï¼Œç©ºæ ¼åŒºåˆ†):\n");
 		scanf("%s", &v1);
-		i = LocateVex(*G, v1);				//È·¶¨v1ÔÚG->verticesÖĞµÄÎ»ÖÃ
+		i = LocateVex(*G, v1);				//ç¡®å®šv1åœ¨G->verticesä¸­çš„ä½ç½®
 		scanf("%s", &v2);
-		j = LocateVex(*G, v2);				//È·¶¨v2ÔÚG->verticesÖĞµÄÎ»ÖÃ
+		j = LocateVex(*G, v2);				//ç¡®å®šv2åœ¨G->verticesä¸­çš„ä½ç½®
 //		scanf("%d", &w);
 
 		p1 = (ArcNode *)malloc(sizeof(ArcNode));
 		p2 = (ArcNode *)malloc(sizeof(ArcNode));
 //		p1->info = p2->info = w;
-		//ÓĞÏòÍ¼
-		p1->adjvex = j;						//iÁÚ½ÓµãµÄĞòºÅÎªj ÓÃÍ·²å·¨²åÈëµ½G->vertices.firstArc
+		//æœ‰å‘å›¾
+		p1->adjvex = j;						//ié‚»æ¥ç‚¹çš„åºå·ä¸ºj ç”¨å¤´æ’æ³•æ’å…¥åˆ°G->vertices.firstArc
 		p1->nextarc = G->vertices[i].firstArc;
 		G->vertices[i].firstArc = p1;
-		//ÎŞÏòÍ¼
-		p2->adjvex = i;						//ÎŞÏòÍ¼ÓĞÒ»ÌõÏàÍ¬µÄ±ß jÁÚ½ÓµãµÄĞòºÅÎªi
+		//æ— å‘å›¾
+		p2->adjvex = i;						//æ— å‘å›¾æœ‰ä¸€æ¡ç›¸åŒçš„è¾¹ jé‚»æ¥ç‚¹çš„åºå·ä¸ºi
 		p2->nextarc = G->vertices[j].firstArc;
 		G->vertices[j].firstArc = p2;
 	}
 
 	ArcNode *p;
 	p = (ArcNode *)malloc(sizeof(ArcNode));
-	for (int i = 0; i < G->vexnum; i++) {		//¼ÆËãÃ¿¸ö¶¥µãµÄÈë¶È
+	for (int i = 0; i < G->vexnum; i++) {		//è®¡ç®—æ¯ä¸ªé¡¶ç‚¹çš„å…¥åº¦
 		if (G->vertices[i].firstArc == NULL) {
 			continue;
 		} else {
@@ -246,7 +229,7 @@ Status createUDG(ALGraph *G) {				//²ÉÓÃÁÚ½Ó±í±íÊ¾·¨ ´´½¨ÎŞÏòÍ¼G
 	}
 }
 
-int LocateVex(ALGraph G, char v) {			//²éÕÒvÔÚG.verticesÖĞµÄÎ»ÖÃ²¢·µ»Ø
+int LocateVex(ALGraph G, char v) {			//æŸ¥æ‰¾våœ¨G.verticesä¸­çš„ä½ç½®å¹¶è¿”å›
 	for (int i = 0; i < G.vexnum; i++) {
 		if (v == G.vertices[i].data) {
 			return i;
@@ -255,21 +238,21 @@ int LocateVex(ALGraph G, char v) {			//²éÕÒvÔÚG.verticesÖĞµÄÎ»ÖÃ²¢·µ»Ø
 	return -1;
 }
 
-void Prim(AMGraph G, int start) {				//×îĞ¡Éú³ÉÊ÷
+void Prim(AMGraph G, int start) {				//æœ€å°ç”Ÿæˆæ ‘
 	ShortEdge se[G.vexnum];
-	for (int i = 0; i < G.vexnum; i++) {		//³õÊ¼»¯¸¨ÖúÊı×éshortEdge
+	for (int i = 0; i < G.vexnum; i++) {		//åˆå§‹åŒ–è¾…åŠ©æ•°ç»„shortEdge
 		se[i].adjvex = start;
 		se[i].lowcost = G.arcs[start][i];
 	}
-	se[start].lowcost = 0;						//Æğµãstart·ÅÈë¼¯ºÏU
+	se[start].lowcost = 0;						//èµ·ç‚¹startæ”¾å…¥é›†åˆU
 
 	int k;
 	for (int i = 0; i < G.vexnum - 1; i++) {
-		k = minEdge(se, G);						//Ñ°ÕÒ×î¶Ì±ßµÄÁÚ½Óµã
-		printf("(%d, %d, %d) ", se[k].adjvex, k, se[k].lowcost);//Êä³ö×îĞ¡Éú³ÉÊ÷Â·¾¶
-		se[k].lowcost = 0;						//¶¥µãk¼ÓÈë¼¯ºÏU
-		for (int j = 0; j < G.vexnum; j++) {	//µ÷ÕûÊı×éshortEdge
-			if (G.arcs[k][j] < se[j].lowcost) {	//ĞÂ¼ÓÈëµÄ¶¥µãµ½¸÷±ßµÄ¾àÀëºÍÔ­À´µÄÏà±È
+		k = minEdge(se, G);						//å¯»æ‰¾æœ€çŸ­è¾¹çš„é‚»æ¥ç‚¹
+		printf("(%d, %d, %d) ", se[k].adjvex, k, se[k].lowcost);//è¾“å‡ºæœ€å°ç”Ÿæˆæ ‘è·¯å¾„
+		se[k].lowcost = 0;						//é¡¶ç‚¹kåŠ å…¥é›†åˆU
+		for (int j = 0; j < G.vexnum; j++) {	//è°ƒæ•´æ•°ç»„shortEdge
+			if (G.arcs[k][j] < se[j].lowcost) {	//æ–°åŠ å…¥çš„é¡¶ç‚¹åˆ°å„è¾¹çš„è·ç¦»å’ŒåŸæ¥çš„ç›¸æ¯”
 				se[j].lowcost = G.arcs[k][j];
 				se[j].adjvex = k;
 			}
@@ -277,7 +260,7 @@ void Prim(AMGraph G, int start) {				//×îĞ¡Éú³ÉÊ÷
 	}
 }
 
-int minEdge(ShortEdge *se, AMGraph G) {			//ÔÚÊı×éshortEdgeÖĞÑ¡Ôñ×îĞ¡µÄ±ß
+int minEdge(ShortEdge *se, AMGraph G) {			//åœ¨æ•°ç»„shortEdgeä¸­é€‰æ‹©æœ€å°çš„è¾¹
 	int min;
 	for (int i = 0; i < G.vexnum; i++) {
 		if (se[i].lowcost != 0) {
@@ -297,7 +280,7 @@ int minEdge(ShortEdge *se, AMGraph G) {			//ÔÚÊı×éshortEdgeÖĞÑ¡Ôñ×îĞ¡µÄ±ß
 	return min;
 }
 
-Status MST(AMGraph *G) {					//ÆÕÀûÄ·Ëã·¨ µÏ½ÜË¹ÌØÀ­Ëã·¨
+Status MST(AMGraph *G) {					//æ™®åˆ©å§†ç®—æ³• è¿ªæ°æ–¯ç‰¹æ‹‰ç®—æ³•
 	G->vexnum = 8;
 	G->arcnum = 14;
 
@@ -324,25 +307,25 @@ Status MST(AMGraph *G) {					//ÆÕÀûÄ·Ëã·¨ µÏ½ÜË¹ÌØÀ­Ëã·¨
 
 void Kruskal(EdgeGraph G) {
 	int vex1, vex2, count;
-	int parent[G.vertexNum];						//ÅĞ¶ÏÁ½¸ö¶¥µãÊÇ·ñÊôÓÚÒ»¸ö¸ù½Úµã(ÊÇ·ñ¹¹³É»·)
-	for (int i = 0; i < G.vertexNum; i++) {			//parentÊı×é³õÊ¼»¯
+	int parent[G.vertexNum];						//åˆ¤æ–­ä¸¤ä¸ªé¡¶ç‚¹æ˜¯å¦å±äºä¸€ä¸ªæ ¹èŠ‚ç‚¹(æ˜¯å¦æ„æˆç¯)
+	for (int i = 0; i < G.vertexNum; i++) {			//parentæ•°ç»„åˆå§‹åŒ–
 		parent[i] = -1;
 	}
 	for (int i = 0; i < G.edgeMum; i++) {
-		vex1 = findRoot(parent, G.egde[i].from);	//ÕÒµ½ËùÔÚÉú³ÉÊ÷µÄ¸ù½Úµã
+		vex1 = findRoot(parent, G.egde[i].from);	//æ‰¾åˆ°æ‰€åœ¨ç”Ÿæˆæ ‘çš„æ ¹èŠ‚ç‚¹
 		vex2 = findRoot(parent, G.egde[i].to);
-		if (vex1 != vex2) {							//ÕÒµ½µÄÁ½¸ö¸ù½Úµã²»Ò»Ñù ²»»á¹¹³É»·
-			printf("(%d, %d, %d) ", G.egde[i].from, G.egde[i].to, G.egde[i].weight);//Êä³ö×îĞ¡Éú³ÉÊ÷Â·¾¶
-			parent[vex2] = vex1;					//ºÏ²¢Éú³ÉÊ÷
+		if (vex1 != vex2) {							//æ‰¾åˆ°çš„ä¸¤ä¸ªæ ¹èŠ‚ç‚¹ä¸ä¸€æ · ä¸ä¼šæ„æˆç¯
+			printf("(%d, %d, %d) ", G.egde[i].from, G.egde[i].to, G.egde[i].weight);//è¾“å‡ºæœ€å°ç”Ÿæˆæ ‘è·¯å¾„
+			parent[vex2] = vex1;					//åˆå¹¶ç”Ÿæˆæ ‘
 			count++;
-			if (count == G.vertexNum - 1) {			//ÒÑ¾­Éú³É ÌáÇ°·µ»Ø
+			if (count == G.vertexNum - 1) {			//å·²ç»ç”Ÿæˆ æå‰è¿”å›
 				return;
 			}
 		}
 	}
 }
 
-int findRoot(int *parent, int v) {					//ÕÒµ½ËùÔÚÉú³ÉÊ÷µÄ¸ù½Úµã
+int findRoot(int *parent, int v) {					//æ‰¾åˆ°æ‰€åœ¨ç”Ÿæˆæ ‘çš„æ ¹èŠ‚ç‚¹
 	int t = v;
 	while (parent[t] > -1) {
 		t = parent[t];
@@ -350,7 +333,7 @@ int findRoot(int *parent, int v) {					//ÕÒµ½ËùÔÚÉú³ÉÊ÷µÄ¸ù½Úµã
 	return t;
 }
 
-Status EG(EdgeGraph *eg) {					//¹¹½¨±ß¼¯Êı×é´æ´¢µÄÍ¼ ¿ËÂ³Ë¹¿¨¶ûËã·¨
+Status EG(EdgeGraph *eg) {					//æ„å»ºè¾¹é›†æ•°ç»„å­˜å‚¨çš„å›¾ å…‹é²æ–¯å¡å°”ç®—æ³•
 	eg->vertexNum = 6;
 	eg->edgeMum = 9;
 	char spot[6] = {0, 1, 2, 3, 4, 5};
